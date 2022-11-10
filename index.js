@@ -83,15 +83,15 @@ app.post('/services',async (req, res)=>{
   });
     app.put('/update/:id', async (req, res) => {
       const id = req.params.id;
-      const query = { _id: ObjectId(id) };
+      const filter = { _id: ObjectId(id) };
       const userReview = req.body;
       const option = {upsert: true};
       const updatedReview = {
           $set: {
               text: userReview.text     
           }
-      }
-      const result = await reviewCollection.updateOne(query, updatedReview, option);
+      };
+      const result = await reviewCollection.updateOne(filter, updatedReview, option);
       console.log(result);
       res.send(result);
   });
