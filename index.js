@@ -10,7 +10,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send('Hello World!')
   })
-  
+
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.yyxrk8i.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -72,6 +72,15 @@ app.post('/services',async (req, res)=>{
       const reviewone=await cursor;
       res.send(reviewone);
     });
+    //delete
+    app.delete('/myreviews/:id', async (req, res) => {
+      const id = req.params.id;
+      // console.log('trying to delete', id);
+      const query = { _id: ObjectId(id) }
+      const result = await reviewCollection.deleteOne(query);
+      console.log(result);
+      res.send(result);
+  });
     app.put('/update/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
